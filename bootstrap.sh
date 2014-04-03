@@ -2,6 +2,7 @@
 
 set -ex
 
+PASSWD='1111'
 CKAN_PKG='python-ckan_2.0_amd64.deb'
 
 apt-get update -y
@@ -24,7 +25,7 @@ dpkg-reconfigure locales
 
 # Install the required packages
 
-apt-get install -y python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript
+apt-get install -y apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript
 
 # Install CKAN into a Python virtual environment
 
@@ -36,7 +37,7 @@ chown `whoami` /usr/lib/ckan/default
 virtualenv --no-site-packages /usr/lib/ckan/default
 . /usr/lib/ckan/default/bin/activate
 
-pip install -e 'git+https://github.com/okfn/ckan.git#egg=ckan'
+pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.2#egg=ckan'
 pip install -r /usr/lib/ckan/default/src/ckan/requirements.txt
 deactivate
 . /usr/lib/ckan/default/bin/activate
@@ -45,17 +46,18 @@ deactivate
 
 sudo -u postgres createuser -S -D -R ckan_default
 sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
-install -o root -g root -m 0644 /vagrant/files/pg_hba.conf /etc/postgresql/9.1/main/
+echo "ALTER USER ckan_default WITH PASSWORD '$PASSWD';" | sudo -u postgres psql
+install -o postgres -g postgres -m 0644 /vagrant/files/pg_hba.conf /etc/postgresql/9.1/main/
 service postgresql restart
 
 # Create a CKAN config file
 
 mkdir -p /etc/ckan/default
-chown -R `whoami` /etc/ckan/
+chown -R www-data /etc/ckan/
 
 cd /usr/lib/ckan/default/src/ckan
 paster make-config ckan /etc/ckan/default/production.ini
-install -o root -g root -m 0644 /vagrant/files/production.ini  /etc/ckan/default/
+sed -e "s/ckan_default:pass/ckan_default:$PASSWD/" /vagrant/files/production.ini > /etc/ckan/default/production.ini
 
 # Setup Solr (Single Solr instance)
 
@@ -83,8 +85,8 @@ ln -s /usr/lib/ckan/default/src/ckan/who.ini /etc/ckan/default/who.ini
 
 # Create the WSGI Script File
 # http://docs.ckan.org/en/1117-start-new-test-suite/deployment.html
-install -o root -g root -m 0644 /vagrant/files/apache.wsgi /etc/ckan/default/
+install -o www-data -g www-data -m 0644 /vagrant/files/apache.wsgi /etc/ckan/default/
+install -o www-data -g www-data -m 0644 /vagrant/files/000-default.conf /etc/apache2/sites-available/
 
-
-
-
+# a2ensite ckan_default
+service apache2 reload
