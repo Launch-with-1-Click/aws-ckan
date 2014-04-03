@@ -90,3 +90,6 @@ install -o www-data -g www-data -m 0644 /vagrant/files/000-default.conf /etc/apa
 
 # a2ensite ckan_default
 service apache2 reload
+
+sudo install -o root -g root -m 0700 /vagrant/files/ckan.cron /etc/cron.d/ckan
+

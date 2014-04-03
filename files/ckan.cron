@@ -1,0 +1,1 @@
+@reboot root PASSWD=`curl -L http://169.254.169.254/latest/instance-id` & echo "ALTER USER ckan_default WITH PASSWORD '$PASSWD';" | sudo -u postgres psql & sed -e "s/ckan_default:pass/ckan_default:$PASSWD/" /vagrant/files/production.ini > /etc/ckan/default/production.ini
