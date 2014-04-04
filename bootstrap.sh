@@ -25,7 +25,7 @@ dpkg-reconfigure locales
 
 # Install the required packages
 
-apt-get install -y apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript
+apt-get install -y debconf-utils nginx apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript
 
 # Install CKAN into a Python virtual environment
 
@@ -56,8 +56,9 @@ mkdir -p /etc/ckan/default
 chown -R www-data /etc/ckan/
 
 cd /usr/lib/ckan/default/src/ckan
-paster make-config ckan /etc/ckan/default/production.ini
-sed -e "s/ckan_default:pass/ckan_default:$PASSWD/" /vagrant/files/production.ini > /etc/ckan/default/production.ini
+paster make-config ckan /etc/ckan/default/development.ini
+sed -e "s/ckan_default:pass/ckan_default:$PASSWD/" /etc/ckan/default/development.ini > /etc/ckan/default/production.ini
+cp -f /etc/ckan/default/production.ini /etc/ckan/default/development.ini
 
 # Setup Solr (Single Solr instance)
 
@@ -86,10 +87,14 @@ ln -s /usr/lib/ckan/default/src/ckan/who.ini /etc/ckan/default/who.ini
 # Create the WSGI Script File
 # http://docs.ckan.org/en/1117-start-new-test-suite/deployment.html
 install -o www-data -g www-data -m 0644 /vagrant/files/apache.wsgi /etc/ckan/default/
-install -o www-data -g www-data -m 0644 /vagrant/files/000-default.conf /etc/apache2/sites-available/
+install -o www-data -g www-data -m 0644 /vagrant/files/ckan_default.conf /etc/apache2/sites-available/
 
-# a2ensite ckan_default
+a2dissite 000-default
+a2ensite ckan_default
 service apache2 reload
 
 sudo install -o root -g root -m 0700 /vagrant/files/ckan.cron /etc/cron.d/ckan
 
+echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
+echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections
+apt-get -y install postfix
