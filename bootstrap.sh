@@ -90,9 +90,14 @@ install -o www-data -g www-data -m 0644 /vagrant/files/apache.wsgi /etc/ckan/def
 install -o www-data -g www-data -m 0644 /vagrant/files/ckan_default.conf /etc/apache2/sites-available/
 install -o www-data -g www-data -m 0644 /vagrant/files/ports.conf /etc/apache2/
 
+install -o www-data -g www-data -m 0644 /vagrant/files/ckan_default.nginx /etc/nginx/sites-available/ckan_default
+ln -s /etc/nginx/sites-available/ckan_default /etc/nginx/sites-enabled/ckan_default
+rm -f /etc/nginx/sites-enabled/default
+
 a2dissite 000-default
 a2ensite ckan_default
-service apache2 reload
+service apache2 restart
+service nginx restart
 
 sudo install -o root -g root -m 0700 /vagrant/files/ckan.cron /etc/cron.d/ckan
 
