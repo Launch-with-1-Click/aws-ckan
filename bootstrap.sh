@@ -2,7 +2,6 @@
 
 set -ex
 
-PASSWD='1111'
 CKAN_PKG='python-ckan_2.0_amd64.deb'
 
 apt-get update -y
@@ -25,7 +24,9 @@ dpkg-reconfigure locales
 
 # Install the required packages
 
-apt-get install -y debconf-utils nginx apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript
+apt-get install -y debconf-utils nginx apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript pwgen
+
+PASSWD=`pwgen 10 1`
 
 # Install CKAN into a Python virtual environment
 
@@ -98,8 +99,6 @@ a2dissite 000-default
 a2ensite ckan_default
 service apache2 restart
 service nginx restart
-
-sudo install -o root -g root -m 0700 /vagrant/files/ckan.cron /etc/cron.d/ckan
 
 # echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
 # echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections

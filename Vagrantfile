@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.keypair_name      = ENV['AWS_EC2_KEYPAIR']
 
     aws.region = "us-east-1"
-    aws.ami = "ami-59a4a230" # Ubuntu12.04.3 LTS 64bit
+    aws.ami = "ami-35dbde5c" # Ubuntu13.10 64bit
 
     aws.instance_type = "t1.micro"
 
