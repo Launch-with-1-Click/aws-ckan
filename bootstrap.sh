@@ -21,7 +21,7 @@ dpkg-reconfigure locales
 
 
 # Installing CKAN from Source
-# http://docs.ckan.org/en/1117-start-new-test-suite/install-from-source.html
+# http://docs.ckan.org/en/ckan-2.2/install-from-source.html
 
 # Install the required packages
 
@@ -62,7 +62,7 @@ cp -f /etc/ckan/default/production.ini /etc/ckan/default/development.ini
 
 # Setup Solr (Single Solr instance)
 
-sudo install -o root -g root -m 0644 /vagrant/files/jetty /etc/default/
+install -o root -g root -m 0644 /vagrant/files/jetty /etc/default/
 
 if [ -f /etc/solr/conf/schema.xml ]; then
     mv /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.bak
@@ -85,9 +85,10 @@ ln -s /usr/lib/ckan/default/src/ckan/who.ini /etc/ckan/default/who.ini
 
 
 # Create the WSGI Script File
-# http://docs.ckan.org/en/1117-start-new-test-suite/deployment.html
+# http://docs.ckan.org/en/ckan-2.2/deployment.html
 install -o www-data -g www-data -m 0644 /vagrant/files/apache.wsgi /etc/ckan/default/
 install -o www-data -g www-data -m 0644 /vagrant/files/ckan_default.conf /etc/apache2/sites-available/
+install -o www-data -g www-data -m 0644 /vagrant/files/ports.conf /etc/apache2/
 
 a2dissite 000-default
 a2ensite ckan_default
@@ -95,6 +96,6 @@ service apache2 reload
 
 sudo install -o root -g root -m 0700 /vagrant/files/ckan.cron /etc/cron.d/ckan
 
-echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
-echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections
-apt-get -y install postfix
+# echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
+# echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections
+# apt-get -y install postfix
