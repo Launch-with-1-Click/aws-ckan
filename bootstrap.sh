@@ -26,7 +26,7 @@ dpkg-reconfigure locales
 
 apt-get install -y debconf-utils nginx apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript pwgen
 
-PASSWD=`pwgen 10 1`
+PASSWD=`pwgen 12 1`
 
 # Install CKAN into a Python virtual environment
 
