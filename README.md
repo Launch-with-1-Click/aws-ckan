@@ -68,7 +68,7 @@ Some simple customizations to customize the ‘look and feel’ of your CKAN sit
 
 http://docs.ckan.org/en/ckan-2.2/sysadmin-guide.html
 
-### More information
+## More information
 
 [Welcome to CKAN’s Documentation](http://docs.ckan.org/en/ckan-2.2/)
 
