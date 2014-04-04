@@ -27,5 +27,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     override.ssh.private_key_path = ENV['AWS_EC2_KEYPAIR_PATH']
   end
 
+  config.ssh.pty = true
   config.vm.provision :shell, :path => "bootstrap.sh"
 end

@@ -6,12 +6,12 @@ CKAN_PKG='python-ckan_2.0_amd64.deb'
 
 apt-get update -y
 
-# apt-get -y install debconf-utils
-# cat <<EOL | debconf-set-selections
-# grub-pc grub-pc/install_devices multiselect /dev/vda
-# grub-pc grub-pc/install_devices_empty boolean false
-# EOL
-# apt-get -y upgrade
+apt-get -y install debconf-utils
+cat <<EOL | debconf-set-selections
+grub-pc grub-pc/install_devices multiselect /dev/vda
+grub-pc grub-pc/install_devices_empty boolean false
+EOL
+apt-get -y upgrade
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -24,7 +24,7 @@ dpkg-reconfigure locales
 
 # Install the required packages
 
-apt-get install -y debconf-utils nginx apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript pwgen
+apt-get install -y nginx apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript pwgen
 
 PASSWD=`pwgen 12 1`
 
@@ -100,6 +100,6 @@ a2ensite ckan_default
 service apache2 restart
 service nginx restart
 
-# echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
-# echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections
-# apt-get -y install postfix
+echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
+echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections
+apt-get -y install postfix
