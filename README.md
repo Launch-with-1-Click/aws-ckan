@@ -1,5 +1,7 @@
 # CKAN
 
+This is a Vagrant configuration designed for deployment CKAN.
+
 [CKAN](http://ckan.org/) is the world’s leading open-source data portal platform.
 
 http://ckan.org/about/
