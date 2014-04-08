@@ -8,10 +8,9 @@ CKAN is a powerful data management system that makes data accessible – by prov
 ## 2. COMPONENTS
 
 * Ubuntu 13.10
-* Apache
-* Nginx
-* PostgreSQL
-* Python
+* Apache 2.4.6
+* Nginx 1.4.1
+* PostgreSQL 9.1.13
 * CKAN 2.2
 
 ## 3. URLs
