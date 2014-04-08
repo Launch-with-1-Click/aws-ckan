@@ -1,49 +1,30 @@
 # CKAN
 
-This is a Vagrant configuration designed for deployment CKAN.
+## 1. OVERVIEW
 
-[CKAN](http://ckan.org/) is the world’s leading open-source data portal platform.
+CKAN is a powerful data management system that makes data accessible – by providing tools to streamline publishing, sharing, finding and using data. CKAN is aimed at data publishers (national and regional governments, companies and organizations) wanting to make their data open and available.
 
-http://ckan.org/about/
 
-![Screenshot of CKAN](https://www.evernote.com/shard/s21/sh/7d36cc3a-b0ab-4d44-b845-27775ce36c1f/2625d18b327ff3df2e2210292af446cb/deep/0/Welcome---CKAN.png)
+## 2. COMPONENTS
 
-## How to run CKAN
+* Ubuntu 13.10
+* Apache
+* Nginx
+* PostgreSQL
+* Python
+* CKAN 2.2
 
-### Set environment variables
+## 3. URLs
 
-Set environment variables at the `~/.bash_profile`.
+* http://${public_hostname}/
 
-```
-export AWS_ACCESS_KEY="MYAWSACCESSKEY"
-export AWS_SECRET_ACCESS_KEY="MYAWSSECRETACCESSKEY"
-export AWS_EC2_KEYPAIR="mykeypair"
-export AWS_EC2_KEYPAIR_PATH="/path/to/.ssh/id_rsa"
-```
+## 4. DEFAULT USERNAMES AND PASSWORDS
 
-### Set up the Vagrant
+* PostgreSQL
+    * User: ckan_default
+    * Password: Random Password (See /etc/ckan/default/production.ini)
 
-1. Install [VirtualBox](https://www.virtualbox.org/).
-2. Install [Vagrant](http://www.vagrantup.com/).
-3. Install the vagrant-aws plugin.
-    * `vagrant plugin install vagrant-aws`
-4. Clone the repository into a local directory.
-    * `git clone https://github.com/Launch-with-1-Click/aws-ckan`
-
-### Launch with Vagrant
-
-```
-vagrant up --provider=aws
-```
-
-### Security Group
-
-* 22 - ssh
-* 80 - http
-
-## Getting Started
-
-### Creating a sysadmin user
+## 5. Creating a sysadmin user
 
 You have to use CKAN’s command line interface to create your first sysadmin user.
 
@@ -62,7 +43,7 @@ paster sysadmin add seanh -c /etc/ckan/default/production.ini
 
 http://docs.ckan.org/en/ckan-2.2/getting-started.html#create-admin-user
 
-### Customizing look and feel
+## 5. Customizing look and feel
 
 Some simple customizations to customize the ‘look and feel’ of your CKAN site are available via the UI, at `http://<my-ckan-url>/ckan-admin/config/`.
 
@@ -70,12 +51,20 @@ Some simple customizations to customize the ‘look and feel’ of your CKAN sit
 
 http://docs.ckan.org/en/ckan-2.2/sysadmin-guide.html
 
-## More information
+## 6. Install an Email Server
+
+Install an email server to enable CKAN’s email features (such as sending traceback emails to sysadmins when crashes occur, or sending new activity email notifications to users). For example, to install the Postfix email server, do:
+
+```
+sudo apt-get install postfix
+```
+
+When asked to choose a Postfix configuration, choose `Internet Site` and press return.
+
+## 7. More information
 
 [Welcome to CKAN’s Documentation](http://docs.ckan.org/en/ckan-2.2/)
 
-## Contributors
+## 8. Support
 
-* [miya0001](https://github.com/miya0001)
-
-
+info+ckan@digitalcube.jp

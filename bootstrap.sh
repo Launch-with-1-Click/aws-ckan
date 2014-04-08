@@ -59,7 +59,6 @@ chown -R www-data /etc/ckan/
 cd /usr/lib/ckan/default/src/ckan
 paster make-config ckan /etc/ckan/default/development.ini
 sed -e "s/ckan_default:pass/ckan_default:$PASSWD/" /etc/ckan/default/development.ini > /etc/ckan/default/production.ini
-cp -f /etc/ckan/default/production.ini /etc/ckan/default/development.ini
 
 # Setup Solr (Single Solr instance)
 
@@ -100,6 +99,10 @@ a2ensite ckan_default
 service apache2 restart
 service nginx restart
 
-echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
-echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections
-apt-get -y install postfix
+# echo postfix postfix/main_mailer_type select 'Internet Site' | debconf-set-selections
+# echo postfix postfix/mail_name string $HOSTNAME | debconf-set-selections
+# apt-get -y install postfix
+
+sudo install -o root -g root -m 0600 /vagrant/files/ckan.cron /etc/cron.d/ckan
+sudo install -o root -g root -m 0700 /vagrant/files/reset_ckan_pass.sh /usr/local/bin/
+
