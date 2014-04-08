@@ -16,7 +16,9 @@ CKAN is a powerful data management system that makes data accessible – by prov
 
 ## 3. URLs
 
-* http://${public_hostname}/
+```
+http://${public_hostname}/
+```
 
 ## 4. DEFAULT USERNAMES AND PASSWORDS
 
