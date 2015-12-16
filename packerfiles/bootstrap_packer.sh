@@ -4,18 +4,17 @@ set -ex
 
 CKAN_PKG='python-ckan_2.0_amd64.deb'
 
-cat <<EOL >> sources.list
-deb http://old-releases.ubuntu.com/ubuntu/ saucy main restricted universe multiverse
-deb http://old-releases.ubuntu.com/ubuntu/ saucy-updates main restricted universe multiverse
-deb http://old-releases.ubuntu.com/ubuntu/ saucy-security main restricted universe multiverse
-deb http://old-releases.ubuntu.com/ubuntu/ saucy-backports main restricted universe multiverse
-deb http://old-releases.ubuntu.com/ubuntu/ saucy-proposed main restricted universe multiverse
-EOL
+# cat <<EOL >> sources.list
+# deb http://old-releases.ubuntu.com/ubuntu/ saucy main restricted universe multiverse
+# deb http://old-releases.ubuntu.com/ubuntu/ saucy-updates main restricted universe multiverse
+# deb http://old-releases.ubuntu.com/ubuntu/ saucy-security main restricted universe multiverse
+# deb http://old-releases.ubuntu.com/ubuntu/ saucy-backports main restricted universe multiverse
+# deb http://old-releases.ubuntu.com/ubuntu/ saucy-proposed main restricted universe multiverse
+# EOL
+#
+# sudo mv sources.list /etc/apt/
 
-sudo mv sources.list /etc/apt/
-
-## update twice
-sudo apt-get update -y
+# sudo apt-get update -y
 sudo apt-get update -y
 
 sudo apt-get -y install debconf-utils
@@ -60,7 +59,7 @@ deactivate
 sudo -u postgres createuser -S -D -R ckan_default
 sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
 echo "ALTER USER ckan_default WITH PASSWORD '$PASSWD';" | sudo -u postgres psql
-sudo install -o postgres -g postgres -m 0644 /vagrant/files/pg_hba.conf /etc/postgresql/9.1/main/
+sudo install -o postgres -g postgres -m 0644 /vagrant/files/pg_hba.conf /etc/postgresql/9.3/main/
 sudo service postgresql restart
 
 # Create a CKAN config file
