@@ -35,7 +35,8 @@ sudo dpkg-reconfigure locales
 
 # Install the required packages
 
-sudo apt-get install -y nginx apache2 libapache2-mod-wsgi python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript pwgen
+sudo apt-get install -y nginx apache2 libapache2-mod-wsgi python-dev postgresql \
+  libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk python-pastescript pwgen
 
 PASSWD=`pwgen 12 1`
 
@@ -49,7 +50,7 @@ chown `whoami` /usr/lib/ckan/default
 virtualenv --no-site-packages /usr/lib/ckan/default
 . /usr/lib/ckan/default/bin/activate
 
-pip install -e 'git+https://github.com/okfn/ckan.git@ckan-2.2#egg=ckan'
+pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.2.4#egg=ckan'
 pip install -r /usr/lib/ckan/default/src/ckan/requirements.txt
 deactivate
 . /usr/lib/ckan/default/bin/activate
